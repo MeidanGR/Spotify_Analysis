@@ -1,3 +1,5 @@
+/* Retrieving selected average features per year from Spotify data - 'tracks' table. */
+
 with cte as (
 	SELECT * FROM (
 			SELECT  loudness,
@@ -11,7 +13,7 @@ with cte as (
 					duration_ms,
 					popularity,
 					release_year = YEAR(release_date),
-					ROW_NUMBER() OVER (PARTITION BY YEAR(release_date) ORDER BY popularity DESC) as track_rank  
+					ROW_NUMBER() OVER (PARTITION BY YEAR(release_date) ORDER BY popularity DESC) as track_rank  -- Order by popularity aiming to achieve an equal number of tracks for every year in which the tracks are the most popular.
 			FROM tracks
 			WHERE YEAR(release_date) IS NOT NULL AND YEAR(release_date) BETWEEN 1920 AND 2021
 				) t
